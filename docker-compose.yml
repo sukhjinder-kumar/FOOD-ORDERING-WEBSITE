@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: backend:version-1
+    container_name: backend
+    ports:
+      - 5000:5000
+    env_file: ./backend/.env
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app-network
+    volumes:
+      - /usr/src/app/node_modules
+      - ./backend:/usr/src/app
+  frontend: 
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: frontend:version-1
+    container_name: frontend
+    depends_on:
+      - backend
+    ports:
+      - 3000:3000
+    networks:
+      - app-network 
+    volumes:
+      - /usr/src/app/node_modules
+      - ./frontend:/usr/src/app
+  nginx:
+    depends_on:
+      - backend
+      - frontend
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - 3050:80
+    networks:
+      - app-network
+  
+networks:
+  app-network:
+      driver: bridge
