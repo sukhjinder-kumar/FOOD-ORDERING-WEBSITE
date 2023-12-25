@@ -1,4 +1,4 @@
-# MERN Stack Boilerplate
+# MERN Stack
 
 ## Installations
 
@@ -36,7 +36,7 @@ create-react-app name_of_app
 npm start
 ```
 
-## Running the boilerplate
+## Running
 
 * Run Mongo daemon:
 ```
